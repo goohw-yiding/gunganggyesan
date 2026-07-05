@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기초대사량 계산기 - BMR·활동대사량(TDEE) 무료 계산 | 건강 계산소</title>
+<meta name="description" content="성별·나이·키·체중으로 기초대사량(BMR)과 활동대사량(TDEE)을 계산하는 무료 계산기. Mifflin-St Jeor 최신 공식 기반. 다이어트 칼로리의 기준이 됩니다.">
+<link rel="canonical" href="https://gunganggyesan.vercel.app/bmr/">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"기초대사량 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
+</script>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="/"><span class="logo">🩺</span> 건강 계산소</a></header>
+
+<h1>기초대사량 계산기</h1>
+<p class="desc">가만히 숨만 쉬어도 소모되는 하루 기초대사량(BMR)과, 활동까지 포함한 활동대사량(TDEE)을 계산합니다.</p>
+
+<div class="card">
+  <label>성별</label>
+  <div class="seg" id="sex">
+    <button class="on" data-v="m">남성</button>
+    <button data-v="f">여성</button>
+  </div>
+
+  <label>나이 (만)</label>
+  <input type="number" id="age" min="10" max="100" step="1" placeholder="예: 30">
+
+  <label>키 (cm)</label>
+  <input type="number" id="height" min="80" max="250" step="0.1" placeholder="예: 170">
+
+  <label>몸무게 (kg)</label>
+  <input type="number" id="weight" min="20" max="300" step="0.1" placeholder="예: 65">
+
+  <label>활동량</label>
+  <select id="act">
+    <option value="1.2">거의 안 함 (사무직, 운동 안 함)</option>
+    <option value="1.375">가벼운 활동 (주 1~3회 운동)</option>
+    <option value="1.55" selected>보통 활동 (주 3~5회 운동)</option>
+    <option value="1.725">활발한 활동 (주 6~7회 운동)</option>
+    <option value="1.9">매우 활발 (육체노동·하루 2회 운동)</option>
+  </select>
+
+  <button class="go" onclick="calc()">기초대사량 계산하기</button>
+
+  <div class="result" id="result">
+    <div>기초대사량 (BMR)</div>
+    <div class="big" id="bmr"></div>
+    <table class="rt" id="rt"></table>
+    <div class="note">기초대사량은 생명 유지에 쓰이는 최소 열량입니다. 여기에 활동량을 곱하면 실제 하루 소모 칼로리(TDEE)가 나옵니다.</div>
+  </div>
+</div>
+
+<div class="card faq">
+  <h3>기초대사량(BMR)이 뭔가요?</h3>
+  <p>아무 활동도 하지 않고 누워만 있어도 심장·호흡·체온 유지에 쓰이는 하루 최소 열량입니다. 근육량이 많을수록 높아지고, 나이가 들수록 낮아집니다. 다이어트의 출발점이 되는 숫자입니다.</p>
+  <h3>계산 공식은 뭘 쓰나요?</h3>
+  <p>현재 가장 정확하다고 평가받는 Mifflin-St Jeor 공식을 사용합니다. 남성: (10×체중) + (6.25×키) − (5×나이) + 5, 여성: 같은 식에서 마지막을 −161로 계산합니다.</p>
+  <h3>다이어트하려면 얼마를 먹어야 하나요?</h3>
+  <p>활동대사량(TDEE)보다 적게 먹으면 살이 빠집니다. 보통 하루 300~500kcal를 줄이면 주당 0.3~0.5kg 감량이 안전한 속도입니다. 단, 기초대사량 아래로 내려가는 극단적 절식은 오히려 대사를 떨어뜨립니다.</p>
+</div>
+
+<a class="cta" href="/calorie/">🍽️ 목표별 칼로리와 탄단지까지? 하루 권장 칼로리 계산하기</a>
+
+<footer>© 건강 계산소 · 계산 결과는 참고용입니다. · <a href="/privacy/">개인정보처리방침</a></footer>
+</div>
+
+<script>
+let sex='m';
+document.querySelectorAll('#sex button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#sex button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');sex=b.dataset.v;
+  };
+});
+function calc(){
+  const age=parseInt(document.getElementById('age').value);
+  const h=parseFloat(document.getElementById('height').value);
+  const w=parseFloat(document.getElementById('weight').value);
+  const act=parseFloat(document.getElementById('act').value);
+  if(isNaN(age)||age<10||age>100){alert('나이를 10~100 사이로 입력해주세요.');return;}
+  if(isNaN(h)||h<80||h>250){alert('키를 80~250cm 사이로 입력해주세요.');return;}
+  if(isNaN(w)||w<20||w>300){alert('몸무게를 20~300kg 사이로 입력해주세요.');return;}
+  let bmr=10*w+6.25*h-5*age+(sex==='m'?5:-161);
+  const tdee=bmr*act;
+  document.getElementById('bmr').textContent=Math.round(bmr).toLocaleString()+' kcal';
+  document.getElementById('rt').innerHTML=
+    '<tr><th>활동대사량 (TDEE)</th><td class="v">'+Math.round(tdee).toLocaleString()+' kcal</td></tr>'+
+    '<tr><th>체중 유지 칼로리</th><td class="v">'+Math.round(tdee).toLocaleString()+' kcal</td></tr>'+
+    '<tr><th>다이어트 (−400)</th><td class="v">'+Math.round(tdee-400).toLocaleString()+' kcal</td></tr>'+
+    '<tr><th>증량 (+300)</th><td class="v">'+Math.round(tdee+300).toLocaleString()+' kcal</td></tr>';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

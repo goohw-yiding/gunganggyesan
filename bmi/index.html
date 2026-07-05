@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI 계산기 - 체질량지수·비만도 무료 계산 | 건강 계산소</title>
+<meta name="description" content="키와 몸무게로 BMI(체질량지수)와 비만도 단계, 정상 체중 범위를 계산하는 무료 계산기. WHO·대한비만학회 기준. 회원가입 없이 바로 계산.">
+<link rel="canonical" href="https://gunganggyesan.vercel.app/bmi/">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"BMI 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
+</script>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="/"><span class="logo">🩺</span> 건강 계산소</a></header>
+
+<h1>BMI 계산기</h1>
+<p class="desc">키와 몸무게만 입력하면 체질량지수(BMI)와 비만도 단계, 정상 체중 범위를 알려드립니다.</p>
+
+<div class="card">
+  <label>키 (cm)</label>
+  <input type="number" id="height" min="80" max="250" step="0.1" placeholder="예: 170">
+
+  <label>몸무게 (kg)</label>
+  <input type="number" id="weight" min="20" max="300" step="0.1" placeholder="예: 65">
+
+  <button class="go" onclick="calc()">BMI 계산하기</button>
+
+  <div class="result" id="result">
+    <div>회원님의 BMI</div>
+    <div class="big" id="bmi"></div>
+    <div id="stage"></div>
+    <div class="bmibar-wrap">
+      <div class="bmibar"></div>
+      <div class="bmibar-mark" id="mark"></div>
+    </div>
+    <div class="bmibar-labels"><span>저체중</span><span>정상</span><span>과체중</span><span>비만</span></div>
+    <table class="rt" id="rt"></table>
+    <div class="note">BMI는 체지방을 직접 재는 것이 아니라 키·체중 비율입니다. 근육량이 많은 경우 실제보다 높게 나올 수 있습니다.</div>
+  </div>
+</div>
+
+<div class="card faq">
+  <h3>BMI 단계 기준 (대한비만학회)</h3>
+  <p>저체중 18.5 미만 · 정상 18.5~22.9 · 과체중(위험체중) 23~24.9 · 1단계 비만 25~29.9 · 2단계 비만 30~34.9 · 3단계 비만 35 이상. WHO 국제 기준은 비만을 30 이상으로 보지만, 아시아인은 더 낮은 BMI에서도 대사질환 위험이 커서 한국은 25 이상을 비만으로 봅니다.</p>
+  <h3>정상 체중은 어떻게 계산하나요?</h3>
+  <p>정상 BMI 범위(18.5~22.9)에 키를 대입해 계산합니다. 예를 들어 키 170cm라면 정상 체중은 약 53~66kg입니다. 이 계산기가 자동으로 범위를 알려드립니다.</p>
+  <h3>BMI가 정상인데 뱃살이 있어요</h3>
+  <p>BMI가 정상이어도 복부 지방이 많은 '마른 비만'일 수 있습니다. 허리둘레(남성 90cm, 여성 85cm 이상)나 체지방률을 함께 확인하는 것이 좋습니다.</p>
+</div>
+
+<a class="cta" href="/calorie/">🍽️ 다이어트가 목표라면? 하루 권장 칼로리 계산하기</a>
+
+<footer>© 건강 계산소 · 계산 결과는 참고용입니다. · <a href="/privacy/">개인정보처리방침</a></footer>
+</div>
+
+<script>
+function calc(){
+  const h=parseFloat(document.getElementById('height').value);
+  const w=parseFloat(document.getElementById('weight').value);
+  if(isNaN(h)||h<80||h>250){alert('키를 80~250cm 사이로 입력해주세요.');return;}
+  if(isNaN(w)||w<20||w>300){alert('몸무게를 20~300kg 사이로 입력해주세요.');return;}
+  const m=h/100;
+  const bmi=w/(m*m);
+  document.getElementById('bmi').textContent=bmi.toFixed(1);
+  let stage='',color='';
+  if(bmi<18.5){stage='저체중이에요';color='var(--warn)';}
+  else if(bmi<23){stage='정상 체중이에요 👍';color='var(--good)';}
+  else if(bmi<25){stage='과체중(위험체중)이에요';color='var(--warn)';}
+  else if(bmi<30){stage='1단계 비만이에요';color='var(--bad)';}
+  else if(bmi<35){stage='2단계 비만이에요';color='var(--bad)';}
+  else{stage='3단계 비만이에요';color='var(--bad)';}
+  const st=document.getElementById('stage');
+  st.textContent=stage;st.style.color=color;st.style.fontWeight='700';st.style.margin='4px 0';
+  // 마커 위치: BMI 15~40을 0~100%로 매핑
+  let pct=(bmi-15)/(40-15)*100;pct=Math.max(0,Math.min(100,pct));
+  document.getElementById('mark').style.left='calc('+pct+'% - 1.5px)';
+  const lo=(18.5*m*m).toFixed(1), hi=(22.9*m*m).toFixed(1);
+  document.getElementById('rt').innerHTML=
+    '<tr><th>정상 체중 범위</th><td class="v">'+lo+' ~ '+hi+' kg</td></tr>'+
+    '<tr><th>현재 체중과 차이</th><td class="v">'+(w<lo?('+'+(lo-w).toFixed(1)+'kg 부족'):w>hi?('-'+(w-hi).toFixed(1)+'kg 초과'):'정상 범위')+'</td></tr>';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

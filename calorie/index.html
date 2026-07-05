@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하루 권장 칼로리 계산기 - 다이어트·유지·증량 탄단지까지 | 건강 계산소</title>
+<meta name="description" content="목표(감량·유지·증량)에 맞는 하루 권장 칼로리와 탄수화물·단백질·지방(탄단지) 섭취량을 계산하는 무료 계산기. 활동대사량 기반, 회원가입 없이 바로 계산.">
+<link rel="canonical" href="https://gunganggyesan.vercel.app/calorie/">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"하루 권장 칼로리 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
+</script>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="/"><span class="logo">🩺</span> 건강 계산소</a></header>
+
+<h1>하루 권장 칼로리 계산기</h1>
+<p class="desc">목표에 맞는 하루 칼로리와 탄수화물·단백질·지방(탄단지) 섭취량까지 한 번에 계산합니다.</p>
+
+<div class="card">
+  <label>성별</label>
+  <div class="seg" id="sex">
+    <button class="on" data-v="m">남성</button>
+    <button data-v="f">여성</button>
+  </div>
+
+  <label>나이 (만)</label>
+  <input type="number" id="age" min="10" max="100" step="1" placeholder="예: 30">
+
+  <label>키 (cm)</label>
+  <input type="number" id="height" min="80" max="250" step="0.1" placeholder="예: 170">
+
+  <label>몸무게 (kg)</label>
+  <input type="number" id="weight" min="20" max="300" step="0.1" placeholder="예: 65">
+
+  <label>활동량</label>
+  <select id="act">
+    <option value="1.2">거의 안 함 (사무직, 운동 안 함)</option>
+    <option value="1.375">가벼운 활동 (주 1~3회 운동)</option>
+    <option value="1.55" selected>보통 활동 (주 3~5회 운동)</option>
+    <option value="1.725">활발한 활동 (주 6~7회 운동)</option>
+    <option value="1.9">매우 활발 (육체노동·하루 2회 운동)</option>
+  </select>
+
+  <label>목표</label>
+  <select id="goal">
+    <option value="-0.15">체중 감량 (다이어트)</option>
+    <option value="0" selected>체중 유지</option>
+    <option value="0.15">체중 증량 (벌크업)</option>
+  </select>
+
+  <button class="go" onclick="calc()">권장 칼로리 계산하기</button>
+
+  <div class="result" id="result">
+    <div>하루 권장 섭취 칼로리</div>
+    <div class="big" id="cal"></div>
+    <div style="font-weight:700;margin:10px 0 2px">권장 탄단지 (하루)</div>
+    <table class="rt" id="rt"></table>
+    <div class="note">탄단지 비율은 단백질을 체중 1kg당 약 1.6g으로 넉넉히 잡고, 지방을 전체의 25%, 나머지를 탄수화물로 배분한 값입니다. 목표와 운동 강도에 따라 조절하세요.</div>
+  </div>
+</div>
+
+<div class="card faq">
+  <h3>칼로리만 맞추면 살이 빠지나요?</h3>
+  <p>기본적으로는 '소비 > 섭취'면 빠집니다. 다만 같은 칼로리라도 단백질을 충분히 먹으면 근손실을 줄이고 포만감이 커서 다이어트가 훨씬 수월합니다. 그래서 칼로리와 함께 탄단지 비율이 중요합니다.</p>
+  <h3>단백질은 얼마나 먹어야 하나요?</h3>
+  <p>일반인은 체중 1kg당 0.8~1g, 다이어트나 근력운동을 한다면 1.6~2g이 권장됩니다. 체중 65kg이 다이어트 중이라면 하루 약 100~130g입니다. 닭가슴살 100g에 약 23g의 단백질이 들어 있습니다.</p>
+  <h3>감량 속도는 어느 정도가 안전한가요?</h3>
+  <p>주당 체중의 0.5~1%가 안전한 속도입니다. 너무 급하게 빼면 근육이 함께 빠지고 요요가 오기 쉽습니다. 이 계산기는 완만한 감량(약 −15%)을 기본값으로 잡았습니다.</p>
+</div>
+
+<a class="cta" href="/bmi/">⚖️ 내 비만도부터 확인하려면? BMI 계산기</a>
+
+<footer>© 건강 계산소 · 계산 결과는 참고용입니다. · <a href="/privacy/">개인정보처리방침</a></footer>
+</div>
+
+<script>
+let sex='m';
+document.querySelectorAll('#sex button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#sex button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');sex=b.dataset.v;
+  };
+});
+function calc(){
+  const age=parseInt(document.getElementById('age').value);
+  const h=parseFloat(document.getElementById('height').value);
+  const w=parseFloat(document.getElementById('weight').value);
+  const act=parseFloat(document.getElementById('act').value);
+  const goal=parseFloat(document.getElementById('goal').value);
+  if(isNaN(age)||age<10||age>100){alert('나이를 10~100 사이로 입력해주세요.');return;}
+  if(isNaN(h)||h<80||h>250){alert('키를 80~250cm 사이로 입력해주세요.');return;}
+  if(isNaN(w)||w<20||w>300){alert('몸무게를 20~300kg 사이로 입력해주세요.');return;}
+  let bmr=10*w+6.25*h-5*age+(sex==='m'?5:-161);
+  const tdee=bmr*act;
+  const cal=tdee*(1+goal);
+  document.getElementById('cal').textContent=Math.round(cal).toLocaleString()+' kcal';
+  const protein=Math.round(w*1.6);
+  const fat=Math.round(cal*0.25/9);
+  const carb=Math.round((cal-protein*4-fat*9)/4);
+  document.getElementById('rt').innerHTML=
+    '<tr><th>단백질</th><td class="v">'+protein+' g ('+(protein*4)+' kcal)</td></tr>'+
+    '<tr><th>지방</th><td class="v">'+fat+' g ('+(fat*9)+' kcal)</td></tr>'+
+    '<tr><th>탄수화물</th><td class="v">'+carb+' g ('+(carb*4)+' kcal)</td></tr>';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

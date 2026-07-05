@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gunganggyesan.vercel.app/sitemap.xml
