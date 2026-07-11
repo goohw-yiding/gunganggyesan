@@ -43,3 +43,13 @@ article ul{margin:0 0 14px 20px;font-size:.95rem}
 article .cta{display:block;background:#eef8f7;border:1.5px solid var(--accent);border-radius:12px;padding:14px 16px;margin:18px 0;text-decoration:none;color:var(--ink);font-weight:600}
 footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.8rem;color:var(--sub);text-align:center}
 footer a{color:var(--sub)}
+.sharebtn{margin-top:14px;width:100%;padding:12px;border:1.5px solid var(--accent);background:#fff;color:var(--accent-dark);border-radius:10px;font-weight:700;cursor:pointer}
+.sharebtn:hover{background:var(--accent);color:#fff}
+.reco{margin-top:22px}
+.reco h4{font-size:.92rem;margin:0 0 10px;color:var(--sub);font-weight:700}
+.recogrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.recogrid{grid-template-columns:1fr}}
+.recogrid a{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-decoration:none;color:var(--ink);font-size:.9rem;font-weight:600}
+.recogrid a:hover{border-color:var(--accent)}
+.recogrid a.buy{background:#eef8f7;border-color:var(--accent)}
+.recogrid .e{font-size:1.35rem;flex-shrink:0}

@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://kcalcalc.com/bmi/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3293445488923111" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/style.css">
+<script src="/common.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"BMI 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
 </script>
@@ -39,6 +40,13 @@
     <div class="bmibar-labels"><span>저체중</span><span>정상</span><span>과체중</span><span>비만</span></div>
     <table class="rt" id="rt"></table>
     <div class="note">BMI는 체지방을 직접 재는 것이 아니라 키·체중 비율입니다. 근육량이 많은 경우 실제보다 높게 나올 수 있습니다.</div>
+    <button class="sharebtn" onclick="shareResult()">📤 결과 공유하기</button>
+    <div class="reco"><h4>이런 것도 확인해보세요</h4><div class="recogrid">
+      <a href="/calorie/"><span class="e">🍽️</span> 하루 권장 칼로리</a>
+      <a href="/bmr/"><span class="e">🔥</span> 기초대사량 계산</a>
+      <a class="buy" href="/blog/diet-calorie-basic/"><span class="e">📉</span> 다이어트 칼로리 이해</a>
+      <a class="buy" href="/blog/walking-calorie/"><span class="e">🚶</span> 걷기 운동 칼로리</a>
+    </div></div>
   </div>
 </div>
 
@@ -81,6 +89,7 @@ function calc(){
   document.getElementById('rt').innerHTML=
     '<tr><th>정상 체중 범위</th><td class="v">'+lo+' ~ '+hi+' kg</td></tr>'+
     '<tr><th>현재 체중과 차이</th><td class="v">'+(w<lo?('+'+(lo-w).toFixed(1)+'kg 부족'):w>hi?('-'+(w-hi).toFixed(1)+'kg 초과'):'정상 범위')+'</td></tr>';
+  window.__share='내 BMI는 '+bmi.toFixed(1)+' ('+stage.replace(/[👍]/g,'').trim()+')! 건강 계산소에서 확인';
   document.getElementById('result').classList.add('show');
 }
 </script>

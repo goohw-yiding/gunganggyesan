@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://kcalcalc.com/bmr/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3293445488923111" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/style.css">
+<script src="/common.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"기초대사량 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
 </script>
@@ -51,6 +52,13 @@
     <div class="big" id="bmr"></div>
     <table class="rt" id="rt"></table>
     <div class="note">기초대사량은 생명 유지에 쓰이는 최소 열량입니다. 여기에 활동량을 곱하면 실제 하루 소모 칼로리(TDEE)가 나옵니다.</div>
+    <button class="sharebtn" onclick="shareResult()">📤 결과 공유하기</button>
+    <div class="reco"><h4>이런 것도 확인해보세요</h4><div class="recogrid">
+      <a href="/calorie/"><span class="e">🍽️</span> 하루 권장 칼로리</a>
+      <a href="/bmi/"><span class="e">⚖️</span> BMI 비만도 계산</a>
+      <a class="buy" href="/blog/protein-guide/"><span class="e">🍗</span> 단백질 얼마나 먹을까</a>
+      <a class="buy" href="/blog/diet-calorie-basic/"><span class="e">📉</span> 다이어트 칼로리 이해</a>
+    </div></div>
   </div>
 </div>
 
@@ -92,6 +100,7 @@ function calc(){
     '<tr><th>체중 유지 칼로리</th><td class="v">'+Math.round(tdee).toLocaleString()+' kcal</td></tr>'+
     '<tr><th>다이어트 (−400)</th><td class="v">'+Math.round(tdee-400).toLocaleString()+' kcal</td></tr>'+
     '<tr><th>증량 (+300)</th><td class="v">'+Math.round(tdee+300).toLocaleString()+' kcal</td></tr>';
+  window.__share='내 기초대사량은 약 '+Math.round(bmr).toLocaleString()+'kcal! (하루 소모 약 '+Math.round(tdee).toLocaleString()+'kcal) 건강 계산소';
   document.getElementById('result').classList.add('show');
 }
 </script>

@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://kcalcalc.com/calorie/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3293445488923111" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/style.css">
+<script src="/common.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"하루 권장 칼로리 계산기","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"inLanguage":"ko"}
 </script>
@@ -59,6 +60,13 @@
     <div style="font-weight:700;margin:10px 0 2px">권장 탄단지 (하루)</div>
     <table class="rt" id="rt"></table>
     <div class="note">탄단지 비율은 단백질을 체중 1kg당 약 1.6g으로 넉넉히 잡고, 지방을 전체의 25%, 나머지를 탄수화물로 배분한 값입니다. 목표와 운동 강도에 따라 조절하세요.</div>
+    <button class="sharebtn" onclick="shareResult()">📤 결과 공유하기</button>
+    <div class="reco"><h4>이런 것도 확인해보세요</h4><div class="recogrid">
+      <a href="/bmr/"><span class="e">🔥</span> 기초대사량 계산</a>
+      <a href="/bmi/"><span class="e">⚖️</span> BMI 비만도 계산</a>
+      <a class="buy" href="/blog/protein-guide/"><span class="e">🍗</span> 단백질 얼마나 먹을까</a>
+      <a class="buy" href="/blog/water-intake-guide/"><span class="e">💧</span> 하루 물 섭취량</a>
+    </div></div>
   </div>
 </div>
 
@@ -104,6 +112,7 @@ function calc(){
     '<tr><th>단백질</th><td class="v">'+protein+' g ('+(protein*4)+' kcal)</td></tr>'+
     '<tr><th>지방</th><td class="v">'+fat+' g ('+(fat*9)+' kcal)</td></tr>'+
     '<tr><th>탄수화물</th><td class="v">'+carb+' g ('+(carb*4)+' kcal)</td></tr>';
+  window.__share='내 하루 권장 칼로리는 약 '+Math.round(cal).toLocaleString()+'kcal (단백질 '+protein+'g)! 건강 계산소';
   document.getElementById('result').classList.add('show');
 }
 </script>
