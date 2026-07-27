@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GQW0CYJGWF"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GQW0CYJGWF');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>체지방률 계산기 - 줄자만으로 재는 미 해군 둘레법 | 건강 계산소</title>
+<meta name="description" content="줄자로 잰 목·허리·엉덩이 둘레와 키로 체지방률을 계산하는 무료 계산기. 미 해군(US Navy) 둘레법 공식 기반. 체지방량·제지방량과 남녀별 판정 구간까지 함께 확인하세요.">
+<link rel="canonical" href="https://kcalcalc.com/bodyfat/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3293445488923111" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/style.css">
+<script src="/common.js" defer></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"체지방률 계산기","url":"https://kcalcalc.com/bodyfat/","description":"목·허리·엉덩이 둘레와 키로 체지방률을 추정하는 미 해군 둘레법 계산기.","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"author":{"@type":"Organization","name":"건강 계산소","url":"https://kcalcalc.com/"},"publisher":{"@type":"Organization","name":"건강 계산소","url":"https://kcalcalc.com/"},"inLanguage":"ko"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"둘레법 체지방률은 얼마나 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"미 해군 둘레법은 수중체중법을 기준으로 비교했을 때 오차가 대략 ±3~4%포인트 수준으로 보고됩니다. 인바디(생체전기저항)나 DEXA와 몇 %포인트 차이가 나는 것은 정상입니다. 절대값을 그대로 믿기보다 같은 방법으로 반복해서 재며 변화 추세를 보는 용도로 쓰세요."}},{"@type":"Question","name":"목둘레와 허리둘레는 어디를 재나요?","acceptedAnswer":{"@type":"Answer","text":"목둘레는 후두(목젖) 바로 아래에서 줄자를 살짝 아래로 기울여 잰 가장 가는 부분입니다. 허리둘레는 남성은 배꼽 높이, 여성은 허리에서 가장 잘록한 부분을 잽니다. 엉덩이둘레는 엉덩이가 가장 튀어나온 지점을 잽니다. 숨을 내쉰 상태에서 줄자가 피부를 누르지 않게 수평으로 감는 것이 중요합니다."}},{"@type":"Question","name":"체지방률이 몇 %면 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"널리 인용되는 참고 범위로 남성은 18~24%, 여성은 25~31%가 일반 성인의 평균 구간입니다. 남성 25% 이상, 여성 32% 이상이면 비만 범위로 봅니다. 여성 기준이 남성보다 8~10%포인트 높은 것은 정상이며, 호르몬과 생식 기능에 필요한 필수지방이 더 많기 때문입니다."}}]}
+</script>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="/"><span class="logo">🩺</span> 건강 계산소</a></header>
+
+<h1>체지방률 계산기</h1>
+<p class="desc">줄자 하나만 있으면 됩니다. 미 해군(US Navy) 둘레법 공식으로 체지방률과 체지방량·제지방량을 계산합니다.</p>
+
+<div class="card">
+  <label>성별</label>
+  <div class="seg" id="sex">
+    <button class="on" data-v="m">남성</button>
+    <button data-v="f">여성</button>
+  </div>
+
+  <label>키 (cm)</label>
+  <input type="number" id="height" min="120" max="230" step="0.1" placeholder="예: 175">
+
+  <label>몸무게 (kg)</label>
+  <input type="number" id="weight" min="25" max="250" step="0.1" placeholder="예: 75">
+
+  <label>목둘레 (cm)</label>
+  <input type="number" id="neck" min="20" max="70" step="0.1" placeholder="예: 37">
+
+  <label>허리둘레 (cm)</label>
+  <input type="number" id="waist" min="40" max="200" step="0.1" placeholder="예: 85">
+
+  <div id="hipRow" style="display:none">
+    <label>엉덩이둘레 (cm)</label>
+    <input type="number" id="hip" min="50" max="200" step="0.1" placeholder="예: 95">
+  </div>
+
+  <button class="go" onclick="calc()">체지방률 계산하기</button>
+
+  <div class="result" id="result">
+    <div>추정 체지방률</div>
+    <div class="big" id="bf"></div>
+    <div id="stage"></div>
+    <table class="rt" id="rt"></table>
+    <div class="note">둘레법은 체지방을 직접 재는 것이 아니라 둘레 비율로 추정하는 방식이라 오차가 ±3~4%포인트 정도 있습니다. 인바디·DEXA 결과와 다를 수 있으니 절대값보다 같은 방법으로 잰 변화 추세를 보세요.</div>
+    <button class="sharebtn" onclick="shareResult()">📤 결과 공유하기</button>
+    <button class="sharebtn" onclick="shareCard()">🖼️ 결과 이미지 저장</button>
+    <div class="reco"><h4>이런 것도 확인해보세요</h4><div class="recogrid">
+      <a href="/bmi/"><span class="e">📏</span> BMI 비만도 계산</a>
+      <a href="/bmr/"><span class="e">🔥</span> 기초대사량 계산</a>
+      <a class="buy" href="/blog/body-fat-percentage/"><span class="e">📊</span> 체지방률 몇 %가 정상</a>
+      <a class="buy" href="/blog/visceral-fat-waist/"><span class="e">📐</span> 허리둘레와 내장지방</a>
+    </div></div>
+  </div>
+</div>
+
+<div class="card">
+<article>
+<h2>줄자 하나로 체지방률을 추정하는 방법</h2>
+<p>체지방률은 몸무게에서 지방이 차지하는 비율입니다. 같은 70kg이라도 지방이 15%인 사람과 30%인 사람은 완전히 다른 몸이고, 대사 질환 위험도 다릅니다. 문제는 체지방을 직접 잴 방법이 없다는 점입니다. 모든 측정법은 결국 <b>추정</b>이고, 다만 무엇을 근거로 추정하느냐가 다를 뿐입니다.</p>
+<p>이 계산기가 쓰는 미 해군(US Navy) 둘레법은 <b>몸의 둘레 비율</b>을 근거로 삼습니다. 지방은 배와 목·엉덩이 주변에 특정한 방식으로 쌓이기 때문에, 키 대비 허리와 목의 둘레 차이가 크면 체지방이 많다고 보는 것입니다. 전기를 흘리는 인바디나 X선을 쓰는 DEXA와 달리 장비가 전혀 필요 없고, 줄자와 계산기만 있으면 집에서 30초 만에 확인할 수 있다는 것이 가장 큰 장점입니다.</p>
+
+<h2>계산에 쓰는 공식</h2>
+<p>미 해군이 체력 기준 판정을 위해 채택한 공식으로, 상용로그(log10)를 사용합니다.</p>
+<ul>
+<li><b>남성</b>: 495 ÷ (1.0324 − 0.19077 × log10(허리 − 목) + 0.15456 × log10(키)) − 450</li>
+<li><b>여성</b>: 495 ÷ (1.29579 − 0.35004 × log10(허리 + 엉덩이 − 목) + 0.22100 × log10(키)) − 450</li>
+</ul>
+<p>남녀 공식이 다른 이유는 지방이 쌓이는 부위가 다르기 때문입니다. 남성은 복부 중심으로 쌓여 허리와 목의 차이만으로도 추정이 되지만, 여성은 엉덩이와 허벅지 쪽 축적이 커서 엉덩이둘레를 함께 넣어야 값이 맞습니다. 그래서 이 계산기는 성별을 여성으로 바꾸면 엉덩이둘레 입력칸이 나타납니다.</p>
+<p>여기서 나온 체지방률에 몸무게를 곱하면 <b>체지방량(kg)</b>이 되고, 몸무게에서 체지방량을 빼면 근육·뼈·수분을 모두 합한 <b>제지방량(kg)</b>이 됩니다. 다이어트를 할 때 실제로 지켜야 할 숫자가 바로 이 제지방량입니다. 체중이 5kg 빠졌는데 제지방량도 3kg 빠졌다면, 그건 성공한 감량이 아닙니다.</p>
+
+<h2>제대로 재는 법이 정확도의 절반</h2>
+<p>둘레법은 공식보다 <b>측정 방법</b>에서 오차가 더 크게 생깁니다. 아래 조건을 지키면 편차가 크게 줄어듭니다.</p>
+<ul>
+<li><b>목둘레</b>: 후두(목젖) 바로 아래, 목에서 가장 가는 부분을 잽니다. 줄자를 앞쪽으로 살짝 기울여 감고, 고개는 정면을 봅니다.</li>
+<li><b>허리둘레</b>: 남성은 배꼽 높이, 여성은 허리에서 가장 잘록한 부분을 잽니다. 숨을 <b>내쉰 상태</b>에서, 배에 힘을 주지 않고 잽니다.</li>
+<li><b>엉덩이둘레</b>: 엉덩이가 가장 튀어나온 지점을 수평으로 감아 잽니다.</li>
+<li><b>공통</b>: 줄자가 피부를 눌러 들어가지 않게 하고, 옷 위가 아니라 맨살이나 얇은 속옷 위에서 잽니다. 아침 공복에 화장실을 다녀온 뒤 재면 조건이 일정해집니다.</li>
+</ul>
+<p>가장 흔한 실수는 허리를 잴 때 배를 집어넣거나 숨을 참는 것입니다. 1~2cm 차이가 체지방률 1~2%포인트를 좌우하므로, 편하게 숨을 내쉰 상태로 재는 습관을 들이세요.</p>
+
+<h2>결과를 어떻게 읽어야 할까</h2>
+<p>남성은 18~24%, 여성은 25~31%가 일반 성인의 평균 구간으로 널리 인용됩니다. 남성 25% 이상, 여성 32% 이상은 비만 범위로 보고 혈당·중성지방 같은 대사 지표를 점검해볼 시점입니다. 반대로 남성 5% 미만, 여성 13% 미만처럼 필수지방에 가까운 구간은 <b>낮을수록 좋은 것이 아니라</b> 체온 조절·호르몬 생성에 문제가 생길 수 있는 영역입니다. 여성의 경우 지나치게 낮은 체지방률은 월경 이상과 골밀도 감소로 이어질 수 있습니다.</p>
+<p>나이도 감안해야 합니다. 40대 이후에는 같은 체중을 유지해도 근육이 줄고 지방이 늘어 체지방률이 자연스럽게 올라갑니다. 40~59세는 평균 구간보다 2~3%포인트, 60세 이상은 3~5%포인트 위쪽까지 허용 범위로 보는 경우가 많습니다. 고령에서 체지방률을 무리하게 낮추려다 근육을 함께 잃는 것이 더 위험합니다.</p>
+
+<h2>이 계산기의 한계</h2>
+<p>둘레법은 수중체중법을 기준으로 비교했을 때 오차가 대략 <b>±3~4%포인트</b> 수준으로 보고됩니다. 즉 결과가 20%로 나왔다면 실제는 16~24% 사이 어딘가일 수 있다는 뜻입니다. 특히 다음 경우에는 오차가 더 커집니다.</p>
+<ul>
+<li>근육량이 매우 많아 목과 어깨가 굵은 경우 — 체지방률이 실제보다 낮게 나올 수 있습니다.</li>
+<li>복부 팽만이나 부종이 있는 경우 — 허리둘레가 늘어 실제보다 높게 나옵니다.</li>
+<li>성장기 청소년, 임신 중인 경우 — 이 공식은 성인을 대상으로 만들어져 적용이 어렵습니다.</li>
+</ul>
+<p>인바디(생체전기저항)와 값이 다르다고 해서 어느 한쪽이 틀린 것은 아닙니다. 추정 방식이 다르면 값도 다릅니다. 중요한 것은 <b>한 가지 방법을 정해서 같은 조건으로 반복 측정</b>하는 것입니다. 지난달 24%가 이번 달 22%로 내려갔다면, 그 값이 진짜 22%인지보다 방향이 내려가고 있다는 사실이 훨씬 의미 있습니다. 체지방률은 한 달에 1~2%포인트만 내려가도 잘 진행되는 편입니다.</p>
+</article>
+
+<div class="medical">
+<b>의료 면책</b> — 이 계산기는 일반적인 정보 제공을 위한 것이며 의학적 진단·치료를 대신하지 않습니다. 둘레법 체지방률은 추정값이며 국내 공식 진단 기준이 아닙니다. 성장기 청소년, 임신·수유 중인 경우, 부종이 있거나 복수가 찬 경우에는 결과가 실제와 크게 달라질 수 있습니다. 체중·체성분 관리 계획은 의료진과 상담하세요.
+</div>
+
+<div class="refs">
+<h3>참고 자료</h3>
+<ul>
+<li><a href="https://www.kosso.or.kr/" target="_blank" rel="noopener nofollow">대한비만학회</a> — 비만 진단과 체성분 평가 관련 지침</li>
+<li><a href="https://health.kdca.go.kr/" target="_blank" rel="noopener nofollow">국가건강정보포털(질병관리청)</a> — 비만·체성분 일반 정보</li>
+<li><a href="https://www.cdc.gov/" target="_blank" rel="noopener nofollow">미국 질병통제예방센터(CDC)</a> — 체중·체성분 평가 지표 안내</li>
+</ul>
+</div>
+</div>
+
+<div class="card faq">
+  <h3>둘레법 체지방률은 얼마나 정확한가요?</h3>
+  <p>미 해군 둘레법은 수중체중법을 기준으로 비교했을 때 오차가 대략 ±3~4%포인트 수준으로 보고됩니다. 인바디(생체전기저항)나 DEXA와 몇 %포인트 차이가 나는 것은 정상입니다. 절대값을 그대로 믿기보다 같은 방법으로 반복해서 재며 변화 추세를 보는 용도로 쓰세요.</p>
+  <h3>목둘레와 허리둘레는 어디를 재나요?</h3>
+  <p>목둘레는 후두(목젖) 바로 아래에서 줄자를 살짝 아래로 기울여 잰 가장 가는 부분입니다. 허리둘레는 남성은 배꼽 높이, 여성은 허리에서 가장 잘록한 부분을 잽니다. 엉덩이둘레는 엉덩이가 가장 튀어나온 지점을 잽니다. 숨을 내쉰 상태에서 줄자가 피부를 누르지 않게 수평으로 감는 것이 중요합니다.</p>
+  <h3>체지방률이 몇 %면 정상인가요?</h3>
+  <p>널리 인용되는 참고 범위로 남성은 18~24%, 여성은 25~31%가 일반 성인의 평균 구간입니다. 남성 25% 이상, 여성 32% 이상이면 비만 범위로 봅니다. 여성 기준이 남성보다 8~10%포인트 높은 것은 정상이며, 호르몬과 생식 기능에 필요한 필수지방이 더 많기 때문입니다.</p>
+</div>
+
+<a class="cta" href="/bmr/">🔥 감량 계획의 출발점? 기초대사량(BMR) 계산하기</a>
+
+<footer>© 건강 계산소 · 계산 결과는 참고용입니다. · <a href="/about/">사이트 소개</a> · <a href="/editorial/">편집 원칙</a> · <a href="/contact/">문의</a> · <a href="/privacy/">개인정보처리방침</a></footer>
+</div>
+
+<script>
+let sex='m';
+document.querySelectorAll('#sex button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#sex button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');sex=b.dataset.v;
+    document.getElementById('hipRow').style.display=(sex==='f')?'block':'none';
+  };
+});
+function bfStage(p,s){
+  if(s==='m'){
+    if(p<6)return ['필수지방 수준 (매우 낮음)','var(--warn)'];
+    if(p<14)return ['운동선수 수준이에요 💪','var(--good)'];
+    if(p<18)return ['양호한 편이에요 👍','var(--good)'];
+    if(p<25)return ['평균 범위예요','var(--warn)'];
+    return ['비만 범위예요','var(--bad)'];
+  }
+  if(p<14)return ['필수지방 수준 (매우 낮음)','var(--warn)'];
+  if(p<21)return ['운동선수 수준이에요 💪','var(--good)'];
+  if(p<25)return ['양호한 편이에요 👍','var(--good)'];
+  if(p<32)return ['평균 범위예요','var(--warn)'];
+  return ['비만 범위예요','var(--bad)'];
+}
+function calc(){
+  const h=parseFloat(document.getElementById('height').value);
+  const w=parseFloat(document.getElementById('weight').value);
+  const neck=parseFloat(document.getElementById('neck').value);
+  const waist=parseFloat(document.getElementById('waist').value);
+  const hip=parseFloat(document.getElementById('hip').value);
+  if(isNaN(h)||h<120||h>230){alert('키를 120~230cm 사이로 입력해주세요.');return;}
+  if(isNaN(w)||w<25||w>250){alert('몸무게를 25~250kg 사이로 입력해주세요.');return;}
+  if(isNaN(neck)||neck<20||neck>70){alert('목둘레를 20~70cm 사이로 입력해주세요.');return;}
+  if(isNaN(waist)||waist<40||waist>200){alert('허리둘레를 40~200cm 사이로 입력해주세요.');return;}
+  if(sex==='f'&&(isNaN(hip)||hip<50||hip>200)){alert('엉덩이둘레를 50~200cm 사이로 입력해주세요.');return;}
+  const lg=Math.log10?Math.log10:function(x){return Math.log(x)/Math.LN10;};
+  let bf;
+  if(sex==='m'){
+    if(waist-neck<=0){alert('허리둘레가 목둘레보다 커야 계산할 수 있어요. 측정값을 다시 확인해주세요.');return;}
+    bf=495/(1.0324-0.19077*lg(waist-neck)+0.15456*lg(h))-450;
+  }else{
+    if(waist+hip-neck<=0){alert('측정값을 다시 확인해주세요.');return;}
+    bf=495/(1.29579-0.35004*lg(waist+hip-neck)+0.22100*lg(h))-450;
+  }
+  if(!isFinite(bf)||bf<=0||bf>75){alert('입력한 둘레로는 계산이 어려워요. 측정값을 다시 확인해주세요.');return;}
+  const fatKg=w*bf/100, leanKg=w-fatKg;
+  document.getElementById('bf').textContent=bf.toFixed(1)+' %';
+  const sg=bfStage(bf,sex);
+  const st=document.getElementById('stage');
+  st.textContent=sg[0];st.style.color=sg[1];st.style.fontWeight='700';st.style.margin='4px 0';
+  const ref=(sex==='m')?'남성 평균 18~24% · 비만 25% 이상':'여성 평균 25~31% · 비만 32% 이상';
+  document.getElementById('rt').innerHTML=
+    '<tr><th>체지방량</th><td class="v">'+fatKg.toFixed(1)+' kg</td></tr>'+
+    '<tr><th>제지방량 (근육·뼈·수분)</th><td class="v">'+leanKg.toFixed(1)+' kg</td></tr>'+
+    '<tr><th>참고 기준</th><td class="v">'+ref+'</td></tr>'+
+    '<tr><th>추정 오차 범위</th><td class="v">'+Math.max(0,bf-4).toFixed(1)+' ~ '+(bf+4).toFixed(1)+' %</td></tr>';
+  window.__share='내 체지방률은 약 '+bf.toFixed(1)+'% ('+sg[0].replace(/[💪👍]/g,'').trim()+') 건강 계산소';
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

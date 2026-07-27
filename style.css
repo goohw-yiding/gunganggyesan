@@ -53,3 +53,23 @@ footer a{color:var(--sub)}
 .recogrid a:hover{border-color:var(--accent)}
 .recogrid a.buy{background:#eef8f7;border-color:var(--accent)}
 .recogrid .e{font-size:1.35rem;flex-shrink:0}
+/* ===== 기사 신뢰 요소(저자·출처·목차) ===== */
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:.8rem;color:var(--sub);padding:10px 0 16px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.meta a{color:var(--accent-dark);text-decoration:none;font-weight:600}
+.meta .by{font-weight:700;color:var(--ink)}
+.toc{background:#f7fbfa;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 22px}
+.toc strong{display:block;font-size:.88rem;margin-bottom:8px;color:var(--sub)}
+.toc ol{margin:0 0 0 18px;font-size:.9rem}
+.toc li{margin:3px 0}
+.toc a{color:var(--accent-dark);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.refs{background:#f7fbfa;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:26px 0 0}
+.refs h3{font-size:.92rem;margin:0 0 8px}
+.refs ul{margin:0 0 0 18px;font-size:.85rem;color:var(--sub)}
+.refs li{margin:4px 0}
+.refs a{color:var(--accent-dark)}
+.keytake{background:#eef8f7;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin:0 0 22px}
+.keytake strong{display:block;font-size:.88rem;margin-bottom:6px;color:var(--accent-dark)}
+.keytake ul{margin:0 0 0 18px;font-size:.92rem}
+.medical{background:#fff8f2;border:1px solid #f0d9c0;border-radius:12px;padding:14px 16px;margin:26px 0 0;font-size:.85rem;color:#8a6540}
+article table.rt th{color:var(--ink);font-weight:700;font-size:.88rem;background:#f7fbfa}
